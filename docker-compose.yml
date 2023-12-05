@@ -1,0 +1,98 @@
+version: '3.8'
+
+services:
+  mongodb:
+    image: mongo:latest
+    container_name: mongodb
+    ports:
+      - "27017:27017"
+    volumes:
+      - ./mongodb_data:/data/db
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: qjcoder
+      MONGO_INITDB_ROOT_PASSWORD: qjcoder
+    networks:
+      - red
+
+  api-gateway:
+    build:
+      context: ./backend/api-gateway
+      dockerfile: Dockerfile
+    container_name: api-gateway
+    ports:
+      - "3000:3000"
+    environment:
+      PORT_GATEWAY: 3000
+      #MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+      TEST_SERVICE_URL: "http://test-service:3100"
+    networks:
+      - red
+    depends_on:
+      - mongodb
+    #volumes:
+      #- ./backend/shared-models:/app/src/models
+
+  user-service:
+    build:
+      context: ./backend/user-service
+      dockerfile: Dockerfile
+    container_name: user-service
+    ports:
+      - "3001:3001"
+    environment:
+      PORT_USERS_SERVICE: 3001
+      MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+    networks:
+      - red
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/shared-models:/app/src/models
+
+  #TEST SERVICE
+  test-service:
+    build:
+      context: ./backend/test-service
+      dockerfile: Dockerfile
+    container_name: test-service
+    ports:
+      - "3100:3100"
+    environment:
+      PORT_TEST_SERVICE: 3100
+      MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+    networks:
+      - red
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/shared-models:/app/src/models
+
+  #MENU-MANAGEMENT-SERVICE
+  menu-management-service:
+    build:
+      context: ./backend/menu-management-service
+      dockerfile: Dockerfile
+    container_name: menu-management-service
+    ports:
+      - "4000:4000"
+    environment:
+      PORT_TEST_SERVICE: 4000
+      MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+      CLOUDINARY_NAME: "dofajjtyc"
+      CLOUDINARY_API_KEY: "544142258165533"
+      CLOUDINARY_API_SECRET: "W_PECZxB3eZ7rVhI3fYXOm7H3Lk"
+
+    networks:
+      - red
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/shared-models:/app/src/models
+
+
+networks:
+  red:
+    driver: bridge
+
+volumes:
+  mongodb_data:
