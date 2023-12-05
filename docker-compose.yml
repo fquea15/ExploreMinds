@@ -77,7 +77,7 @@ services:
       - "4000:4000"
     environment:
       PORT_TEST_SERVICE: 4000
-      MONGODB_URI: "mongodb+srv://service:O8McQOXZWnxgUCyC@qjcoder.xrvgrjs.mongodb.net/?retryWrites=true&w=majority"
+      MONGODB_URI: "URL_MONGO_ATLAS"
       CLOUDINARY_NAME: "dofajjtyc"
       CLOUDINARY_API_KEY: "544142258165533"
       CLOUDINARY_API_SECRET: "W_PECZxB3eZ7rVhI3fYXOm7H3Lk"
