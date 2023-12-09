@@ -1,12 +1,13 @@
 import { Router } from 'express'
-/*import {
-    getDishesAll
+import {
+    getDishesAll,
+    createDish
 } from '../controllers/dish.controller.js'
 
 const router = Router()
 
-//router.get('/platos', getDishesAll)
-//router.post('/platos', createDishes)
+router.get('/platos', getDishesAll)
+router.post('/platos', createDish)
 
 /*router.get('/products/:id', getProduct)
 

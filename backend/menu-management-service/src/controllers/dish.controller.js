@@ -1,4 +1,4 @@
-import { getDishes } from '../services/firebase.service.js';
+import { getDishes, saveDish } from "../services/firebase.service.js";
 
 export const getDishesAll = async (req, res) => {
   try {
@@ -9,6 +9,30 @@ export const getDishesAll = async (req, res) => {
     res.status(500).json({ error: "Error al obtener elementos" });
   }
 };
+
+export const createDish = async (req, res) => {
+  try {
+    const { name, category, type, price, description } = req.body;
+    const imageFile = req.files?.image;
+
+    if (!imageFile) {
+      throw new Error("No se proporcionó un archivo de imagen.");
+    }
+    const dishData = {
+      name,
+      category,
+      type,
+      price,
+      description,
+    };
+    const dish = await saveDish(dishData, imageFile);
+    res.status(201).json(dish);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al crear el platillo" });
+  }
+};
+
 /*import Dish from '../models/dish.model.js';
 import { uploadImage, deleteImage } from '../utils/cloudinary.js';
 import fs from 'fs-extra';
