@@ -1,4 +1,15 @@
-import Dish from '../models/dish.model.js';
+import { getDishes } from '../services/firebase.service.js';
+
+export const getDishesAll = async (req, res) => {
+  try {
+    const dishes = await getDishes();
+    res.json(dishes);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al obtener elementos" });
+  }
+};
+/*import Dish from '../models/dish.model.js';
 import { uploadImage, deleteImage } from '../utils/cloudinary.js';
 import fs from 'fs-extra';
 

@@ -17,5 +17,13 @@ backend/menu-management-service/node_modules
 backend/menu-management-service/package-lock.json
 backend/menu-management-service/*.log
 backend/menu-management-service/*.gz
+backend/menu-management-service/.env
+
+backend/test-service-firebase/node_modules
+backend/test-service-firebase/package-lock.json
+backend/test-service-firebase/*.log
+backend/test-service-firebase/*.gz
+backend/test-service-firebase/.env
+
 .env
 mongodb_data
