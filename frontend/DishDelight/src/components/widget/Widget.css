@@ -10,11 +10,12 @@
   border-radius: 8px;
   color: #F0F0F0;
   transition: width 0.2s ease;
+  max-height: 480px;
 }
 
 .widget-image {
   width: 100%;
-  height: auto;
+  height: 300px;
   border-radius: 8px;
 }
 
@@ -52,5 +53,11 @@
 @media screen and (max-width: 850px) {
   .widget-container {
     width: calc(50% - 16px);
+  }
+}
+
+@media screen and (max-width: 650px) {
+  .widget-container {
+    width: calc(100% - 16px);
   }
 }
