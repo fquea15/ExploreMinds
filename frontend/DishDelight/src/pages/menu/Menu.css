@@ -1,0 +1,14 @@
+.container-menu{
+  display: flex;
+  justify-content: center;
+  overflow-y: auto;
+  overflow-x: auto;
+  height: 100%;
+}
+.container-grid {
+    width: 1400px;
+    display: flex;
+    flex-wrap: wrap; /* Permite que los widgets envuelvan a la siguiente línea */
+    justify-content: center;
+    padding: 20px;
+  }

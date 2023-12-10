@@ -1,0 +1,9 @@
+.container {
+    background-color: rgba(0, 0, 0, 0.5);
+    background-size: cover;
+    height: 100vh;
+}
+
+.container main {
+    height: calc(100% - 100px);
+}

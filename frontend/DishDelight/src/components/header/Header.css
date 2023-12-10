@@ -1,0 +1,71 @@
+.header{
+    background-color: rgba(0, 0, 0, 0.5);
+    display: flex;
+    justify-content: center;
+    height: 100px;
+    max-height: 100px;
+}
+
+.header .content{
+    width: 1400px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+.header .content .logo {
+    width: 150px;
+}
+
+.header .content .logo img {
+    width: 100%;
+    filter: drop-shadow(0 0 6px rgba(255, 255, 255, 0.9));
+}
+
+.header .content .nav-bar{
+    width: 100%;
+}
+
+.header .content .nav-bar ul {
+    display: flex;
+    gap: 2em;
+    justify-content: end;
+    align-items: center;
+}
+
+.header .content .nav-bar ul li {
+    list-style: none;
+}
+
+.header .content .nav-bar ul li .link {
+    text-decoration: none;
+    color: #F0F0F0;
+    font-size: 20px;
+    font-family: 'Courier New', Courier, monospace;
+    transition: box-shadow 0.1s ease ;
+}
+
+.header .content .nav-bar ul li:hover .link {
+    text-decoration: none;
+    color: #C3C3C3;
+    font-weight: 600;
+    box-shadow: 0px 2px 0px 0px #F0F0F0;
+}
+
+.header .content .nav-bar ul li button {
+    border: 1px solid #F0F0F0;
+    padding: 10px 8px;
+    border-radius: 6px;
+    background: rgba(0, 0, 0, 0.4);
+    color: #F0F0F0;
+    margin: 0 10px;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    transition: font- 0.05s ease;
+}
+
+.header .content .nav-bar ul li button:hover {
+    font-weight: 600;
+    padding: 11px 9px;
+    background: rgba(0, 0, 0, 0.5);
+}

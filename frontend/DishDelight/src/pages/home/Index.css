@@ -1,0 +1,49 @@
+.content-home {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    color: #f0f0f0;
+}
+
+.content-home .home {
+    max-width: 1200px;
+    text-align: center;
+    padding: 0 100px;
+}
+
+.content-home .home h1 {
+    font-family: 'Times New Roman', Times, serif;
+    font-size: 60px;
+
+}
+
+.content-home .home p {
+    font-family: 'Courier New', Courier, monospace;
+    font-size: 18px;
+    margin: 40px 0px;
+}
+
+
+.content-home .home button {
+    border: 1px solid #F0F0F0;
+    padding: 12px 50px;
+    border-radius: 6px;
+    background: none;
+    margin: 0 10px;
+    font-family: 'Courier New', Courier, monospace;
+    cursor: pointer;
+    transition: font- 0.05s ease;
+    font-size: 20px;
+}
+
+.content-home .home button:hover {
+    font-weight: 600;
+    background: rgba(255, 255, 255, 0.1);
+    color: #C3C3C3;
+}
+
+.content-home .home button .link{
+    text-decoration: none;
+    color: #F0F0F0;
+}
