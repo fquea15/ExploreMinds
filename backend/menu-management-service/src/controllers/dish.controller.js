@@ -1,8 +1,8 @@
-import { getDishes, saveDish } from "../services/firebase.service.js";
+import { addCommentToDish, addRatingToDish, getAllDishesWithRatings, saveDish } from "../services/firebase.service.js";
 
 export const getDishesAll = async (req, res) => {
   try {
-    const dishes = await getDishes();
+    const dishes = await getAllDishesWithRatings();
     res.json(dishes);
   } catch (error) {
     console.error(error);
@@ -30,6 +30,34 @@ export const createDish = async (req, res) => {
   } catch (error) {
     console.error(error);
     res.status(500).json({ error: "Error al crear el platillo" });
+  }
+};
+
+export const addRating = async (req, res) => {
+  try {
+    const dishId = req.params.id;
+    const { rating } = req.body;
+    const ratingData = { rating: parseFloat(rating), };
+    const updatedDish = await addRatingToDish(dishId, ratingData);
+    res.json(updatedDish);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({ error: "Error al agregar el rating al platillo" });
+  }
+};
+
+export const addComment = async (req, res) => {
+  try {
+    const dishId = req.params.id;
+    const { comment } = req.body;
+    const commentData = { comment, };
+    const updatedDish = await addCommentToDish(dishId, commentData);
+    res.json(updatedDish);
+  } catch (error) {
+    console.error(error);
+    res
+      .status(500)
+      .json({ error: "Error al agregar el comentario al platillo" });
   }
 };
 

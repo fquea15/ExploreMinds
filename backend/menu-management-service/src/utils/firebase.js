@@ -9,7 +9,6 @@ import {
   FIREBASE_STORAGE_BUCKET,
 } from "../config.js";
 
-console.log(FIREBASE_API_KEY)
 export const firebaseConfig = {
   apiKey: FIREBASE_API_KEY,
   authDomain: FIREBASE_AUTH_DOMAIN,
