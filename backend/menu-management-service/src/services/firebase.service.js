@@ -15,7 +15,7 @@ const storage = getStorage(app);
 
 export const getAllDishesWithRatings = async () => {
   try {
-    const dishesRef = ref(db, 'dishes');
+    const dishesRef = ref(db, "dishes");
     const dishesSnapshot = await get(dishesRef);
 
     const dishes = [];
@@ -24,7 +24,7 @@ export const getAllDishesWithRatings = async () => {
       dishesSnapshot.forEach((dishSnapshot) => {
         const dishData = dishSnapshot.val();
         const ratings = dishData.ratings || [];
-        const comments = dishData.comments || []
+        const comments = dishData.comments || [];
         const averageRating = calculateAverageRating(ratings);
         const cappedAverageRating = Math.min(averageRating, 5);
         delete dishData.ratings;
@@ -32,27 +32,32 @@ export const getAllDishesWithRatings = async () => {
           id: dishSnapshot.key,
           ...dishData,
           rating: cappedAverageRating,
-          comments: comments
+          comments: comments,
         });
       });
     }
 
     return dishes;
   } catch (error) {
-    console.error('Error al obtener los platos con ratings:', error);
-    throw new Error('Error al obtener los platos con ratings');
+    console.error("Error al obtener los platos con ratings:", error);
+    throw new Error("Error al obtener los platos con ratings");
   }
 };
 
 // Función para calcular el rating promedio y redondear a dos decimales
 const calculateAverageRating = (ratings) => {
-  const numericRatings = ratings.filter(rating => typeof rating.rating === 'number');
+  const numericRatings = ratings.filter(
+    (rating) => typeof rating.rating === "number"
+  );
 
   if (numericRatings.length === 0) {
     return 0; // O cualquier valor predeterminado que desees
   }
 
-  const totalRating = numericRatings.reduce((sum, rating) => sum + rating.rating, 0);
+  const totalRating = numericRatings.reduce(
+    (sum, rating) => sum + rating.rating,
+    0
+  );
   const averageRating = totalRating / numericRatings.length;
 
   // Redondear a dos decimales
@@ -60,8 +65,6 @@ const calculateAverageRating = (ratings) => {
 
   return roundedAverageRating;
 };
-
-
 
 /*export const getDishes = async (req, res) => {
   try {
@@ -138,12 +141,14 @@ export const saveDish = async (dishData, imageFile) => {
 
 export const addRatingToDish = async (dishId, ratingData) => {
   try {
-    const dishesRef = ref(db, 'dishes');
+    const dishesRef = ref(db, "dishes");
     const dishRef = child(dishesRef, dishId);
 
     // Verificar si el campo 'ratings' ya existe
-    const ratingsSnapshot = await get(child(dishRef, 'ratings'));
-    const existingRatings = ratingsSnapshot.exists() ? ratingsSnapshot.val() : [];
+    const ratingsSnapshot = await get(child(dishRef, "ratings"));
+    const existingRatings = ratingsSnapshot.exists()
+      ? ratingsSnapshot.val()
+      : [];
 
     const updatedRatings = [...existingRatings, ratingData];
 
@@ -157,20 +162,21 @@ export const addRatingToDish = async (dishId, ratingData) => {
     const updatedDish = (await get(dishRef)).val();
     return updatedDish;
   } catch (error) {
-    console.error('Error al agregar el rating al platillo:', error);
-    throw new Error('Error al agregar el rating al platillo');
+    console.error("Error al agregar el rating al platillo:", error);
+    throw new Error("Error al agregar el rating al platillo");
   }
 };
 
-
 export const addCommentToDish = async (dishId, commentData) => {
   try {
-    const dishesRef = ref(db, 'dishes');
+    const dishesRef = ref(db, "dishes");
     const dishRef = child(dishesRef, dishId);
 
     // Verificar si el campo 'comments' ya existe
-    const commentsSnapshot = await get(child(dishRef, 'comments'));
-    const existingComments = commentsSnapshot.exists() ? commentsSnapshot.val() : [];
+    const commentsSnapshot = await get(child(dishRef, "comments"));
+    const existingComments = commentsSnapshot.exists()
+      ? commentsSnapshot.val()
+      : [];
 
     const updatedComments = [...existingComments, commentData];
 
@@ -184,11 +190,7 @@ export const addCommentToDish = async (dishId, commentData) => {
     const updatedDish = (await get(dishRef)).val();
     return updatedDish;
   } catch (error) {
-    console.error('Error al agregar el comentario al platillo:', error);
-    throw new Error('Error al agregar el comentario al platillo');
+    console.error("Error al agregar el comentario al platillo:", error);
+    throw new Error("Error al agregar el comentario al platillo");
   }
 };
-
-
-
-

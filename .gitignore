@@ -26,4 +26,3 @@ backend/test-service-firebase/*.gz
 backend/test-service-firebase/.env
 
 .env
-mongodb_data

@@ -1,4 +1,4 @@
-version: '3.8'
+version: "3.8"
 
 services:
   mongodb:
@@ -7,7 +7,7 @@ services:
     ports:
       - "27017:27017"
     volumes:
-      - ./mongodb_data:/data/db
+      - mongodb_data:/data/db
     environment:
       MONGO_INITDB_ROOT_USERNAME: qjcoder
       MONGO_INITDB_ROOT_PASSWORD: qjcoder
@@ -23,14 +23,13 @@ services:
       - "3000:3000"
     environment:
       PORT_GATEWAY: 3000
-      #MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
       TEST_SERVICE_URL: "http://test-service:3100"
     networks:
       - red
     depends_on:
       - mongodb
     #volumes:
-      #- ./backend/shared-models:/app/src/models
+    #- ./backend/shared-models:/app/src/models
 
   user-service:
     build:
@@ -76,11 +75,21 @@ services:
     ports:
       - "4000:4000"
     environment:
-      PORT_TEST_SERVICE: 4000
-      MONGODB_URI: "MONGODB_URI"
-      CLOUDINARY_NAME: "CLOUDINARY_NAME"
-      CLOUDINARY_API_KEY: "CLOUDINARY_API_KEY"
-      CLOUDINARY_API_SECRET: "CLOUDINARY_API_SECRET"
+      PORT_MENU_MANAGEMENT_SERVICE: 4000
+      #MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+      #CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      #CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      #CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      FIREBASE_API_KEY: ${FIREBASE_API_KEY}
+      FIREBASE_AUTH_DOMAIN: ${FIREBASE_AUTH_DOMAIN}
+      FIREBASE_DATABASE_URL: ${FIREBASE_DATABASE_URL}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_STORAGE_BUCKET: ${FIREBASE_STORAGE_BUCKET}
+      FIREBASE_MESSAGING_SENDER_ID: ${FIREBASE_MESSAGING_SENDER_ID}
+      FIREBASE_APP_ID: ${FIREBASE_APP_ID}
+      FIREBASE_MEASUREMENT_ID: ${FIREBASE_MEASUREMENT_ID}
+      #MONGODB_ATLAS
+      #MONGODB_URI: ${MONGODB_URI}
 
     networks:
       - red
@@ -89,10 +98,8 @@ services:
     volumes:
       - ./backend/shared-models:/app/src/models
 
-
 networks:
   red:
     driver: bridge
-
 volumes:
   mongodb_data:
