@@ -43,26 +43,20 @@ export const getAllDishesWithRatings = async () => {
     throw new Error("Error al obtener los platos con ratings");
   }
 };
-
-// Función para calcular el rating promedio y redondear a dos decimales
 const calculateAverageRating = (ratings) => {
   const numericRatings = ratings.filter(
     (rating) => typeof rating.rating === "number"
   );
 
   if (numericRatings.length === 0) {
-    return 0; // O cualquier valor predeterminado que desees
+    return 0;
   }
-
   const totalRating = numericRatings.reduce(
     (sum, rating) => sum + rating.rating,
     0
   );
   const averageRating = totalRating / numericRatings.length;
-
-  // Redondear a dos decimales
   const roundedAverageRating = Number(averageRating.toFixed(2));
-
   return roundedAverageRating;
 };
 
@@ -98,15 +92,11 @@ export const saveDish = async (dishData, imageFile) => {
     const dishesRef = ref(db, "dishes");
     const newDishRef = push(dishesRef);
     const dishId = newDishRef.key;
-
     await update(child(dishesRef, dishId), {
       ...dishData,
     });
-
     const imageName = `${Date.now()}_${sanitizeFilename(imageFile.name)}`;
-
     const storageFileRef = storageRef(storage, `images/${imageName}`);
-
     const metadata = {
       contentType: imageFile.mimetype,
     };
@@ -115,8 +105,6 @@ export const saveDish = async (dishData, imageFile) => {
     fs.unlink(imageFile.tempFilePath);
 
     const imageUrl = await getDownloadURL(storageFileRef);
-
-    // Actualizar el registro del platillo con la información de la imagen
     await update(child(dishesRef, dishId), {
       image: {
         id: imageName,
@@ -132,7 +120,7 @@ export const saveDish = async (dishData, imageFile) => {
         url: imageUrl,
       },
     };
-    return savedDish; // Retorna la información del platillo guardado
+    return savedDish;
   } catch (error) {
     console.error("Error al guardar el platillo:", error);
     throw new Error("Error al guardar el platillo");
@@ -143,22 +131,15 @@ export const addRatingToDish = async (dishId, ratingData) => {
   try {
     const dishesRef = ref(db, "dishes");
     const dishRef = child(dishesRef, dishId);
-
-    // Verificar si el campo 'ratings' ya existe
     const ratingsSnapshot = await get(child(dishRef, "ratings"));
     const existingRatings = ratingsSnapshot.exists()
       ? ratingsSnapshot.val()
       : [];
-
     const updatedRatings = [...existingRatings, ratingData];
-
-    // Crear o actualizar el campo 'ratings'
     const updateObject = {
       ratings: updatedRatings,
     };
-
     await update(dishRef, updateObject);
-
     const updatedDish = (await get(dishRef)).val();
     return updatedDish;
   } catch (error) {
@@ -171,22 +152,15 @@ export const addCommentToDish = async (dishId, commentData) => {
   try {
     const dishesRef = ref(db, "dishes");
     const dishRef = child(dishesRef, dishId);
-
-    // Verificar si el campo 'comments' ya existe
     const commentsSnapshot = await get(child(dishRef, "comments"));
     const existingComments = commentsSnapshot.exists()
       ? commentsSnapshot.val()
       : [];
-
     const updatedComments = [...existingComments, commentData];
-
-    // Crear o actualizar el campo 'comments'
     const updateObject = {
       comments: updatedComments,
     };
-
     await update(dishRef, updateObject);
-
     const updatedDish = (await get(dishRef)).val();
     return updatedDish;
   } catch (error) {

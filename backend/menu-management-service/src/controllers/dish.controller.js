@@ -1,64 +1,64 @@
 import { addCommentToDish, addRatingToDish, getAllDishesWithRatings, saveDish } from "../services/firebase.service.js";
 
 export const getDishesAll = async (req, res) => {
-  try {
-    const dishes = await getAllDishesWithRatings();
-    res.json(dishes);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al obtener elementos" });
-  }
+    try {
+        const dishes = await getAllDishesWithRatings();
+        res.json(dishes);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al obtener elementos" });
+    }
 };
 
 export const createDish = async (req, res) => {
-  try {
-    const { name, category, type, price, description } = req.body;
-    const imageFile = req.files?.image;
+    try {
+        const { name, category, type, price, description } = req.body;
+        const imageFile = req.files?.image;
 
-    if (!imageFile) {
-      throw new Error("No se proporcionó un archivo de imagen.");
+        if (!imageFile) {
+            throw new Error("No se proporcionó un archivo de imagen.");
+        }
+        const dishData = {
+            name,
+            category,
+            type,
+            price,
+            description,
+        };
+        const dish = await saveDish(dishData, imageFile);
+        res.status(201).json(dish);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al crear el platillo" });
     }
-    const dishData = {
-      name,
-      category,
-      type,
-      price,
-      description,
-    };
-    const dish = await saveDish(dishData, imageFile);
-    res.status(201).json(dish);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al crear el platillo" });
-  }
 };
 
 export const addRating = async (req, res) => {
-  try {
-    const dishId = req.params.id;
-    const { rating } = req.body;
-    const ratingData = { rating: parseFloat(rating), };
-    const updatedDish = await addRatingToDish(dishId, ratingData);
-    res.json(updatedDish);
-  } catch (error) {
-    console.error(error);
-    res.status(500).json({ error: "Error al agregar el rating al platillo" });
-  }
+    try {
+        const dishId = req.params.id;
+        const { rating } = req.body;
+        const ratingData = { rating: parseFloat(rating), };
+        const updatedDish = await addRatingToDish(dishId, ratingData);
+        res.json(updatedDish);
+    } catch (error) {
+        console.error(error);
+        res.status(500).json({ error: "Error al agregar el rating al platillo" });
+    }
 };
 
 export const addComment = async (req, res) => {
-  try {
-    const dishId = req.params.id;
-    const { comment } = req.body;
-    const commentData = { comment, };
-    const updatedDish = await addCommentToDish(dishId, commentData);
-    res.json(updatedDish);
-  } catch (error) {
-    console.error(error);
-    res
-      .status(500)
-      .json({ error: "Error al agregar el comentario al platillo" });
-  }
+    try {
+        const dishId = req.params.id;
+        const { comment } = req.body;
+        const commentData = { comment, };
+        const updatedDish = await addCommentToDish(dishId, commentData);
+        res.json(updatedDish);
+    } catch (error) {
+        console.error(error);
+        res
+            .status(500)
+            .json({ error: "Error al agregar el comentario al platillo" });
+    }
 };
 
 /*import Dish from '../models/dish.model.js';
