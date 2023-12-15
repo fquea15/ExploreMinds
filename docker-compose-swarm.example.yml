@@ -24,6 +24,7 @@ services:
           - node.role == worker
           - node.labels.nodo == worker-1
 
+
 networks:
   red:
     external: true

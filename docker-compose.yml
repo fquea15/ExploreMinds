@@ -23,7 +23,7 @@ services:
       - "3000:3000"
     environment:
       PORT_GATEWAY: 3000
-      TEST_SERVICE_URL: "http://test-service:3100"
+      MENU_MANAGEMENT_SERVICE_URL: "http://menu-management-service:4000"
     networks:
       - red
     depends_on:
@@ -97,6 +97,49 @@ services:
       - mongodb
     volumes:
       - ./backend/shared-models:/app/src/models
+  rating-recommend-service:
+    build:
+      context: ./backend/rating-recommend-service
+      dockerfile: Dockerfile
+    container_name: rating-recommend-service
+    ports:
+      - "4001:4001"
+    environment:
+      PORT_RATING_RECOMMEND_SERVICE: 4001
+      #MONGODB_URI: "mongodb://qjcoder:qjcoder@mongodb:27017"
+      #CLOUDINARY_NAME: ${CLOUDINARY_NAME}
+      #CLOUDINARY_API_KEY: ${CLOUDINARY_API_KEY}
+      #CLOUDINARY_API_SECRET: ${CLOUDINARY_API_SECRET}
+      FIREBASE_API_KEY: ${FIREBASE_API_KEY}
+      FIREBASE_AUTH_DOMAIN: ${FIREBASE_AUTH_DOMAIN}
+      FIREBASE_DATABASE_URL: ${FIREBASE_DATABASE_URL}
+      FIREBASE_PROJECT_ID: ${FIREBASE_PROJECT_ID}
+      FIREBASE_STORAGE_BUCKET: ${FIREBASE_STORAGE_BUCKET}
+      FIREBASE_MESSAGING_SENDER_ID: ${FIREBASE_MESSAGING_SENDER_ID}
+      FIREBASE_APP_ID: ${FIREBASE_APP_ID}
+      FIREBASE_MEASUREMENT_ID: ${FIREBASE_MEASUREMENT_ID}
+      #MONGODB_ATLAS
+      #MONGODB_URI: ${MONGODB_URI}
+
+    networks:
+      - red
+    depends_on:
+      - mongodb
+    volumes:
+      - ./backend/shared-models:/app/src/models
+  dish-delight:
+    build:
+      context: ./frontend/DishDelight
+      dockerfile: Dockerfile
+    container_name: dish-delight
+    ports:
+      - "80:80"
+    environment:
+      VITE_REACT_APP_URL_API: "http://menu-management-service:4000/api/platos"
+    networks:
+      - red
+    depends_on:
+      - menu-management-service
 
 networks:
   red:

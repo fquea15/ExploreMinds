@@ -5,20 +5,19 @@ import fileUpload from 'express-fileupload';
 
 //ROUTES
 import indexRoutes from './routes/index.routes.js'
-import dishesRoutes from './routes/dishes.routes.js'
-//import productRoutes from './routes/product.routes.js';
+import disheRoutes from './routes/dishe.routes.js';
 
 const app = express()
 
 app.use(cors());
 app.use(morgan('dev'));
+app.use(express.json());
 app.use(fileUpload({
     useTempFiles: true,
     tempFileDir: './uploads'
 }));
 
 app.use(indexRoutes)
-//app.use('/api', productRoutes)
-app.use(dishesRoutes)
+app.use('/api', disheRoutes)
 
 export default app

@@ -25,4 +25,14 @@ backend/test-service-firebase/*.log
 backend/test-service-firebase/*.gz
 backend/test-service-firebase/.env
 
+backend/rating-recommend-service/node_modules
+backend/rating-recommend-service/package-lock.json
+backend/rating-recommend-service/*.log
+backend/rating-recommend-service/*.gz
+backend/rating-recommend-service/.env
+
 .env
+deploy
+
+
+docker-compose-swarm.yml

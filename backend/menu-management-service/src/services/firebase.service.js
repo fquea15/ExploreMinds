@@ -13,6 +13,8 @@ const app = initializeApp(firebaseConfig);
 const db = getDatabase(app);
 const storage = getStorage(app);
 
+
+//GET ALL DISHES FROM FIREBASE
 export const getAllDishesWithRatings = async () => {
   try {
     const dishesRef = ref(db, "dishes");
@@ -43,6 +45,8 @@ export const getAllDishesWithRatings = async () => {
     throw new Error("Error al obtener los platos con ratings");
   }
 };
+
+//CALCULAR EL PROMEDIO DE TODA LAS CALIFICACIONES DE UN PLATILLO
 const calculateAverageRating = (ratings) => {
   const numericRatings = ratings.filter(
     (rating) => typeof rating.rating === "number"
@@ -60,33 +64,13 @@ const calculateAverageRating = (ratings) => {
   return roundedAverageRating;
 };
 
-/*export const getDishes = async (req, res) => {
-  try {
-    const dishesRef = ref(db, "dishes");
-    const snapshot = await get(dishesRef);
-
-    const dishes = [];
-
-    if (snapshot.exists()) {
-      snapshot.forEach((childSnapshot) => {
-        dishes.push({
-          id: childSnapshot.key,
-          ...childSnapshot.val(),
-        });
-      });
-    }
-
-    return dishes;
-  } catch (error) {
-    console.error(error);
-    throw new Error("Error al obtener elementos");
-  }
-};*/
-
+//CAMBIAR CARACTERES INVALIDOS AL MOMENTO DE SUBIR A FIRESTORAGE POR "_"
 function sanitizeFilename(filename) {
   return filename.replace(/[^a-zA-Z0-9.-]/g, "_");
 }
 
+
+//GUARDAR PLATILLO EN BASE DE DATOS DE FIREBASE
 export const saveDish = async (dishData, imageFile) => {
   try {
     const dishesRef = ref(db, "dishes");
@@ -127,27 +111,27 @@ export const saveDish = async (dishData, imageFile) => {
   }
 };
 
+
+//AGREGAR CALIFICACION A UN PLATILLO
 export const addRatingToDish = async (dishId, ratingData) => {
   try {
     const dishesRef = ref(db, "dishes");
     const dishRef = child(dishesRef, dishId);
     const ratingsSnapshot = await get(child(dishRef, "ratings"));
-    const existingRatings = ratingsSnapshot.exists()
-      ? ratingsSnapshot.val()
-      : [];
+    const existingRatings = ratingsSnapshot.exists() ? ratingsSnapshot.val() : [];
     const updatedRatings = [...existingRatings, ratingData];
-    const updateObject = {
-      ratings: updatedRatings,
-    };
-    await update(dishRef, updateObject);
+    await update(dishRef, { ratings: updatedRatings });
+    const averageRating = calculateAverageRating(updatedRatings);
     const updatedDish = (await get(dishRef)).val();
-    return updatedDish;
+    delete updatedDish.ratings;
+    return { ...updatedDish, rating: averageRating };
   } catch (error) {
     console.error("Error al agregar el rating al platillo:", error);
     throw new Error("Error al agregar el rating al platillo");
   }
 };
 
+//AGREGAR COMENTARIO A UN PLATILLO
 export const addCommentToDish = async (dishId, commentData) => {
   try {
     const dishesRef = ref(db, "dishes");
@@ -168,3 +152,28 @@ export const addCommentToDish = async (dishId, commentData) => {
     throw new Error("Error al agregar el comentario al platillo");
   }
 };
+
+
+
+/*export const getDishes = async (req, res) => {
+  try {
+    const dishesRef = ref(db, "dishes");
+    const snapshot = await get(dishesRef);
+
+    const dishes = [];
+
+    if (snapshot.exists()) {
+      snapshot.forEach((childSnapshot) => {
+        dishes.push({
+          id: childSnapshot.key,
+          ...childSnapshot.val(),
+        });
+      });
+    }
+
+    return dishes;
+  } catch (error) {
+    console.error(error);
+    throw new Error("Error al obtener elementos");
+  }
+};*/

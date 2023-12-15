@@ -1,5 +1,6 @@
 import { addCommentToDish, addRatingToDish, getAllDishesWithRatings, saveDish } from "../services/firebase.service.js";
 
+//GET ALL DISHES
 export const getDishesAll = async (req, res) => {
     try {
         const dishes = await getAllDishesWithRatings();
@@ -10,6 +11,7 @@ export const getDishesAll = async (req, res) => {
     }
 };
 
+//CREATE DISH
 export const createDish = async (req, res) => {
     try {
         const { name, category, type, price, description } = req.body;
@@ -33,6 +35,7 @@ export const createDish = async (req, res) => {
     }
 };
 
+//ADD RATING
 export const addRating = async (req, res) => {
     try {
         const dishId = req.params.id;
@@ -46,6 +49,7 @@ export const addRating = async (req, res) => {
     }
 };
 
+//ADD COMMENT
 export const addComment = async (req, res) => {
     try {
         const dishId = req.params.id;
@@ -60,6 +64,8 @@ export const addComment = async (req, res) => {
             .json({ error: "Error al agregar el comentario al platillo" });
     }
 };
+
+
 
 /*import Dish from '../models/dish.model.js';
 import { uploadImage, deleteImage } from '../utils/cloudinary.js';
